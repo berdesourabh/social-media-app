@@ -2,17 +2,28 @@ package com.socialmedia.app;
 
 import java.util.List;
 
+import org.junit.BeforeClass;
+
 import com.socialmedia.app.exception.SocialMediaException;
 import com.socialmedia.app.models.Post;
+import com.socialmedia.app.service.UserService;
+import com.socialmedia.app.serviceimpl.UserServiceImpl;
 
 import junit.framework.TestCase;
 
 public class SocialMediaApplicationTest extends TestCase {
 
 	private SocialMediaApplication socialMediaApplication = new SocialMediaApplication();
+	private UserService userService = new UserServiceImpl();
 
 	public SocialMediaApplicationTest(String testName) {
 		super(testName);
+	}
+
+	@BeforeClass
+	public void setUp() {
+		userService.create();
+		userService.create();
 	}
 
 	public void testCreatePost_Success() {
@@ -48,7 +59,8 @@ public class SocialMediaApplicationTest extends TestCase {
 	public void testGetNewsFeeds_FetchOnly20Posts() throws InterruptedException {
 		try {
 			for (int i = 0; i < 25; i++) {
-				socialMediaApplication.createPost(1, i, "Great weather outside");
+				socialMediaApplication.createPost(1, i, "Great weather outside " + i);
+				Thread.sleep(1000);
 			}
 			List<Integer> postIds = socialMediaApplication.getNewsFeeds(1);
 			assertEquals(postIds.size(), 20);
@@ -88,6 +100,27 @@ public class SocialMediaApplicationTest extends TestCase {
 		}
 
 	}
+
+	/*public void testGetNewsFeeds_FetchFeedsFromFollowee() throws InterruptedException {
+		try {
+			socialMediaApplication.follow(1, 2);
+			for (int i = 1; i <= 5; i++) {
+				socialMediaApplication.createPost(2, i, "Greetings for Today" + i);
+				Thread.sleep(1000);
+			}
+			for (int i = 6; i <= 10; i++) {
+				socialMediaApplication.createPost(1, i, "Great weather outside" + i);
+				Thread.sleep(1000);
+			}
+			List<Integer> postIds = socialMediaApplication.getNewsFeeds(1);
+			Optional<Integer> topPostId = postIds.stream().max(Integer::compareTo);
+			assertEquals(Integer.valueOf(10), topPostId.get());
+
+		} catch (SocialMediaException e) {
+			e.printStackTrace();
+		}
+
+	}*/
 
 	public void testUnFollow_Success() {
 

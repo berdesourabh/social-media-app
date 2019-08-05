@@ -5,9 +5,7 @@ import java.util.List;
 import com.socialmedia.app.exception.SocialMediaException;
 import com.socialmedia.app.models.Post;
 import com.socialmedia.app.service.SocialMediaService;
-import com.socialmedia.app.service.UserService;
 import com.socialmedia.app.serviceimpl.SocialMediaServiceImpl;
-import com.socialmedia.app.serviceimpl.UserServiceImpl;
 
 /**
  * 
@@ -17,16 +15,9 @@ import com.socialmedia.app.serviceimpl.UserServiceImpl;
 public class SocialMediaApplication {
 
 	private SocialMediaService socialMediaService;
-	private UserService userService;
 
 	public SocialMediaApplication() {
 		socialMediaService = new SocialMediaServiceImpl();
-		userService = new UserServiceImpl();
-
-		// Create 2 default users
-		userService.create();
-		userService.create();
-
 	}
 
 	/**

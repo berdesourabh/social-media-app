@@ -19,7 +19,6 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 	public SocialMediaServiceImpl() {
 		socialMediaData = SocialMediaData.getInstance();
 	}
-	
 
 	public List<Integer> getNewsFeeds(int userId) throws SocialMediaException {
 		Optional<User> currentUser = getUserById(userId);
@@ -36,8 +35,7 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 						post.forEach(p -> postList.add(p));
 					});
 
-			List<Integer> postIds = postList.stream().map(post -> post.getId()).limit(20)
-					.collect(Collectors.toList());
+			List<Integer> postIds = postList.stream().map(post -> post.getId()).limit(20).collect(Collectors.toList());
 
 			return postIds;
 		} else {
