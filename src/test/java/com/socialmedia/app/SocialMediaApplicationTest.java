@@ -45,6 +45,15 @@ public class SocialMediaApplicationTest extends TestCase {
 
 	}
 
+	public void testCreatePost_WithNullContent_ThrowsException() {
+		try {
+			socialMediaApplication.createPost(2, 1, null);
+		} catch (SocialMediaException e) {
+			assertEquals(e.getMessage(), "Post content can not be null");
+		}
+
+	}
+
 	public void testGetNewsFeeds_Success() {
 
 		try {
@@ -101,26 +110,21 @@ public class SocialMediaApplicationTest extends TestCase {
 
 	}
 
-	/*public void testGetNewsFeeds_FetchFeedsFromFollowee() throws InterruptedException {
-		try {
-			socialMediaApplication.follow(1, 2);
-			for (int i = 1; i <= 5; i++) {
-				socialMediaApplication.createPost(2, i, "Greetings for Today" + i);
-				Thread.sleep(1000);
-			}
-			for (int i = 6; i <= 10; i++) {
-				socialMediaApplication.createPost(1, i, "Great weather outside" + i);
-				Thread.sleep(1000);
-			}
-			List<Integer> postIds = socialMediaApplication.getNewsFeeds(1);
-			Optional<Integer> topPostId = postIds.stream().max(Integer::compareTo);
-			assertEquals(Integer.valueOf(10), topPostId.get());
-
-		} catch (SocialMediaException e) {
-			e.printStackTrace();
-		}
-
-	}*/
+	/*
+	 * public void testGetNewsFeeds_FetchFeedsFromFollowee() throws
+	 * InterruptedException { try { socialMediaApplication.follow(1, 2); for (int i
+	 * = 1; i <= 5; i++) { socialMediaApplication.createPost(2, i,
+	 * "Greetings for Today" + i); Thread.sleep(1000); } for (int i = 6; i <= 10;
+	 * i++) { socialMediaApplication.createPost(1, i, "Great weather outside" + i);
+	 * Thread.sleep(1000); } List<Integer> postIds =
+	 * socialMediaApplication.getNewsFeeds(1); Optional<Integer> topPostId =
+	 * postIds.stream().max(Integer::compareTo); assertEquals(Integer.valueOf(10),
+	 * topPostId.get());
+	 * 
+	 * } catch (SocialMediaException e) { e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 
 	public void testUnFollow_Success() {
 

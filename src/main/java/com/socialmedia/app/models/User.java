@@ -2,12 +2,15 @@ package com.socialmedia.app.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class User implements Comparable<User> {
 
 	private int id;
 
 	private List<User> followedBy = new ArrayList<User>();
+
+	private TreeSet<Post> posts = new TreeSet<>();
 
 	public User(int id) {
 		this.id = id;
@@ -27,6 +30,14 @@ public class User implements Comparable<User> {
 
 	public void setFollowedBy(List<User> followedBy) {
 		this.followedBy = followedBy;
+	}
+
+	public TreeSet<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(TreeSet<Post> posts) {
+		this.posts = posts;
 	}
 
 	@Override

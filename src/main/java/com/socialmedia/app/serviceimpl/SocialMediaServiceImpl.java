@@ -3,7 +3,6 @@ package com.socialmedia.app.serviceimpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.socialmedia.app.data.SocialMediaData;
@@ -27,31 +26,25 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 					.filter(user -> user.getFollowedBy().contains(currentUser.get())).map(follower -> follower.getId())
 					.collect(Collectors.toList());
 
-			List<Post> postList = new ArrayList<>();
-			socialMediaData.userPosts.entrySet().stream()
-					.filter(userPost -> userId == userPost.getKey().getId()
-							|| followeesIds.contains(userPost.getKey().getId()))
-					.map(userPost -> userPost.getValue()).collect(Collectors.toList()).forEach(post -> {
-						post.forEach(p -> postList.add(p));
-					});
-
-			List<Integer> postIds = postList.stream().map(post -> post.getId()).limit(20).collect(Collectors.toList());
-
-			return postIds;
+			List<Post> posts = new ArrayList<>();
+			socialMediaData.users.forEach(user -> {
+				if (followeesIds.contains(user.getId()) || user.getId() == userId) {
+					posts.addAll(user.getPosts());
+				}
+			});
+			return posts.stream().map(p -> p.getId()).limit(20).collect(Collectors.toList());
 		} else {
 			throw new SocialMediaException("User does not exists");
 		}
 	}
 
 	public Post createPost(int userId, int postId, String content) throws SocialMediaException {
+		if (content == null)
+			throw new SocialMediaException("Post content can not be null");
 		Optional<User> user = getUserById(userId);
 		if (user.isPresent()) {
-			TreeSet<Post> posts = socialMediaData.userPosts.containsKey(user.get())
-					? socialMediaData.userPosts.get(user.get())
-					: new TreeSet<>();
 			Post newPost = new Post(postId, content, user.get());
-			posts.add(newPost);
-			socialMediaData.userPosts.put(user.get(), posts);
+			socialMediaData.users.stream().filter(u -> u.getId() == userId).findFirst().get().getPosts().add(newPost);
 			return newPost;
 		} else {
 			throw new SocialMediaException("User does not exists");

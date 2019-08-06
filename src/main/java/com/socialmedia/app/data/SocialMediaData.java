@@ -2,21 +2,18 @@ package com.socialmedia.app.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
-import com.socialmedia.app.models.Post;
 import com.socialmedia.app.models.User;
 
 public class SocialMediaData {
 
 	private static SocialMediaData socialMediaDataInstance;
-	public TreeMap<User, TreeSet<Post>> userPosts;
+	// public TreeMap<User, TreeSet<Post>> userPosts;
 	public List<User> users;
 
 	private SocialMediaData() {
 
-		userPosts = new TreeMap<>();
+		// userPosts = new TreeMap<>();
 		users = new ArrayList<>();
 	}
 
